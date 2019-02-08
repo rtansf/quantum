@@ -12,8 +12,8 @@ be queried in O(1) time complexity. Quantum consists of a multi-dimensional aggr
 
 <h3>Example</h3>
 
-Suppose we have purchase transaction records like so collected over a period of time.
-For this example, we will store this as CSV transactions.csv (in real-world usage, the data would be continuously streamed).
+Suppose we have purchase transaction records like so collected over a time period.
+For this example, the records are stored in transactions.csv (in real-world usage, the data would be continuously streamed).
 
 |DateTime|CustomerId|ProductId|Quantity|TotalPrice|
 |------- |----------|---------|--------|----------|
@@ -35,7 +35,7 @@ We would like to ask questions such as:
 2. What was the total quantity purchased for product, P1 on 2018-04-11 bewteen 21:00 and 23:00?
 
 We will first define Quantum's DDL to process our data set as shown below:
-
+```
    myagg:
       data_source:
          type: csv
@@ -57,6 +57,6 @@ We will first define Quantum's DDL to process our data set as shown below:
          - TotalPrice
       datetime_field_name: DateTime
       datetime_field_format: YYYY-mm-dd HH:MM:SS
-
+```
 
 
