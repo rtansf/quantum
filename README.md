@@ -17,17 +17,17 @@ For this example, the records are stored in transactions.csv (in real-world usag
 
 |DateTime|CustomerId|ProductId|Quantity|TotalPrice|
 |------- |----------|---------|--------|----------|
-|2018-04-11 21:41:33|C1|P1|2|10.0|
-|2018-04-11 22:41:33|C2|P1|5|7.0|
-|2018-04-12 01:08:04|C6|P2|3|44.0|
-|2018-04-12 01:12:12|C3|P2|3|15.0|
-|2018-04-12 01:14:11|C2|P2|8|135.0|
-|2018-04-12 02:00:22|C3|P4|3|23.0|
-|2018-04-12 03:12:17|C1|P7|3|45.0|
-|2018-04-12 05:06:09|C7|P1|3|88.0|
-|2018-04-12 11:02:14|C5|P6|3|19.0|
-|2018-04-12 14:07:16|C5|P5|3|11.0|
-|2018-04-13 04:03:12|C4|P2|3|10.0|
+|2018-04-11 21:41:33|C1|P1|2|10.00|
+|2018-04-11 22:41:33|C2|P1|5|7.00|
+|2018-04-12 01:08:04|C6|P2|3|44.00|
+|2018-04-12 01:12:12|C3|P2|3|15.00|
+|2018-04-12 01:14:11|C2|P2|8|135.00|
+|2018-04-12 02:00:22|C3|P4|3|23.00|
+|2018-04-12 03:12:17|C1|P7|3|45.00|
+|2018-04-12 05:06:09|C7|P1|3|88.00|
+|2018-04-12 11:02:14|C5|P6|3|19.00|
+|2018-04-12 14:07:16|C5|P5|3|11.00|
+|2018-04-13 04:03:12|C4|P2|3|10.00|
 
 We would like to ask questions such as:
 
@@ -57,7 +57,7 @@ We will first define Quantum's DDL stored in a file 'myagg.yml' to process our d
 
 Explanation of the fields:
 
-* data_source - specifies where the data records will come from. In the example, it's a csv file called 'transactions.csv'. 
+* data_source - specifies where the data records will come from. In the example, it's a csv file called 'transactions.csv'. Quantum supports other sources such as AWS SQS, Kinesis, Kafka, RabbitMQ
 * data_type - the type of our record and we've called it, 'transaction'.
 * dimensions - the dimensions in our record that we want to aggregate, in this case ProductId
 * time - the time dimensions which we want to aggregate (Quantum supports year, month, week, day, day_of_week, hour, min, sec)
