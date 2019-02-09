@@ -60,7 +60,7 @@ Explanation of the fields:
 
 * data_source - specifies where the data records will come from. In the example, it's a csv file called 'transactions.csv'. Quantum supports other sources such as AWS SQS, Kinesis, Kafka, RabbitMQ
 * data_type - the type of our record and we've called it, 'transaction'.
-* dimensions - the dimensions in our record that we want to aggregate, in this case ProductId
+* dimensions - the non-time dimensions in our record that we want to aggregate, in this case ProductId
 * time - the time dimensions which we want to aggregate (Quantum supports year, month, week, day, day_of_week, hour, min, sec)
 * measures - the numeric columns which we want to aggregate over (Quantum supports sum and average)
 * datetime_field_name - the name of the date/time field in the data set
@@ -69,6 +69,27 @@ Explanation of the fields:
 We then run quantum like so:
 
     quantum myagg.yml
+
+We then start QL to query our data like so:
+
+    ql myagg.yml
+
+How did sales for P1 do on April 12 of 2018?
+
+    get ProductId=P1;y=2018;m=4;d=12
+
+How did sales for P1  do in April 12 of 2018 and its preceding 3 days?
+
+    get ProductId=P1;y=2018;m=4;d=12 3-
+
+How did sales for P2 do in April of 2018 and its preceding and succeeding 3 days?
+
+    get ProductId=P1,year=2018,month=4;d=12 3-+ 
+
+
+
+
+
 
 
 
