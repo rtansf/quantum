@@ -31,8 +31,8 @@ For this example, the records are stored in transactions.csv (in real-world usag
 
 We would like to ask questions such as:
 
-1. How much dollar volume did product, P1 produce in the last n months, n days, n hours, n minutes?
-2. What was the total quantity purchased for product, P1 on 2018-04-11 bewteen 21:00 and 23:00?
+* How much dollar volume did product, P1 produce in the last n months, n days, n hours, n minutes?
+* What was the total quantity purchased for product, P1 on 2018-04-11 bewteen 21:00 and 23:00?
 
 We will first define Quantum's DDL stored in a file 'myagg.yml' to process our data set as shown below:
 ```
@@ -70,22 +70,81 @@ We then run quantum like so:
 
     quantum myagg.yml
 
-We then start QL to query our data like so:
+Aggregated data is now available in Quantum's cache. We can now query it. Start QL to query our data like so:
 
     ql myagg.yml
 
-How did sales for P1 do on April 12, 2018?
+Example queries:
 
-    get ProductId=P1;y=2018;m=4;d=12
+```
+*How did sales for P1 do on April 12, 2018?*
 
-How did sales for P1  do in April 12, 2018 and its preceding 3 days?
+QL: get ProductId=P1;y=2018;m=4;d=12
+[
+    {
+        "key": "/qtname:myagg/dt:transaction/ProductId:P1/y:2018/m:04/d:12",
+        "value": {
+            "sum_Quantity": 3.0,
+            "avg_Quantity": 3.0,
+            "sum_TotalPrice": 88.0,
+            "avg_TotalPrice": 88.0,
+            "count": 1
+        }
+    }
+]
 
-    get ProductId=P1;y=2018;m=4;d=12 3-
+How did sales for P1 do in April 12, 2018 and its preceding 3 days?
+
+QL: get ProductId=P1;y=2018;m=4;d=12; 3-
+[
+    {
+        "key": "/qtname:myagg/dt:transaction/ProductId:P1/y:2018/m:04/d:11",
+        "value": {
+            "sum_Quantity": 7.0,
+            "avg_Quantity": 3.5,
+            "sum_TotalPrice": 17.0,
+            "avg_TotalPrice": 8.5,
+            "count": 2
+        }
+    },
+    {
+        "key": "/qtname:myagg/dt:transaction/ProductId:P1/y:2018/m:04/d:12",
+        "value": {
+            "sum_Quantity": 3.0,
+            "avg_Quantity": 3.0,
+            "sum_TotalPrice": 88.0,
+            "avg_TotalPrice": 88.0,
+            "count": 1
+        }
+    }
+]
 
 How did sales for P2 do in April 12, 2018 and its preceding and succeeding 3 days?
 
-    get ProductId=P1,year=2018,month=4;d=12 3-+ 
-
+QL: get ProductId=P2;y=2018;m=4;d=12; 3-+
+[
+    {
+        "key": "/qtname:myagg/dt:transaction/ProductId:P2/y:2018/m:04/d:12",
+        "value": {
+            "sum_Quantity": 14.0,
+            "avg_Quantity": 4.666666666666667,
+            "sum_TotalPrice": 194.0,
+            "avg_TotalPrice": 64.66666666666667,
+            "count": 3
+        }
+    },
+    {
+        "key": "/qtname:myagg/dt:transaction/ProductId:P2/y:2018/m:04/d:13",
+        "value": {
+            "sum_Quantity": 3.0,
+            "avg_Quantity": 3.0,
+            "sum_TotalPrice": 10.0,
+            "avg_TotalPrice": 10.0,
+            "count": 1
+        }
+    }
+]
+```
 
 
 
