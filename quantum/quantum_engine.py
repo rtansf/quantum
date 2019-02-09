@@ -137,7 +137,7 @@ class QuantumEngine():
 
     def get_agg_values(self, filter, time_units, direction='-'):
         key = self.generate_key_from_filter(filter)
-        print ('getting key: ' + key)
+        #print ('getting key: ' + key)
         return self.get_agg_values_by_key(key, time_units, direction)
 
     def generate_key_from_filter(self, filter):
@@ -158,5 +158,7 @@ class QuantumEngine():
             key += '/h:' + filter['h']
         if 'mn' in filter:
             key += '/mn:' + filter['mn']
+        if 's' in filter:
+            key += '/s:' + filter['s']
         return key
 

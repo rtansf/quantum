@@ -22,6 +22,8 @@ class QL(Cmd):
         time_units = 0
         plus_minus = ''
         for tok in toks:
+            if tok is None or tok == '':
+                continue
             tok = tok.strip()
             try:
                 tt = tok.split('=')
@@ -29,7 +31,7 @@ class QL(Cmd):
                     lt = tt[0]
                     rt = tt[1]
                     # Normalize time units with leading 0
-                    if lt in ['m', 'd', 'h', 'mn']:
+                    if lt in ['m', 'w', 'wd', 'd', 'h', 'mn', 's']:
                         if len(rt) == 1:
                             rt = '0' + rt
                     query[lt] = rt
@@ -57,6 +59,11 @@ class QL(Cmd):
         else:
             if plus_minus == '':
                 plus_minus = '-'
-            value = self.quantum_engine.get_agg_values(query, time_units, plus_minus)
-            pretty_value = json.dumps(value, indent=4)
-            print (pretty_value)
+            try:
+               #print (query, time_units, plus_minus)
+               value = self.quantum_engine.get_agg_values(query, time_units, plus_minus)
+               pretty_value = json.dumps(value, indent=4)
+               print (pretty_value)
+            except:
+               print("Syntax error")
+               return
