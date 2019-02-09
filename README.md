@@ -12,7 +12,7 @@ be queried in O(1) time complexity. Quantum consists of a multi-dimensional aggr
 
 <h3>Simple Example</h3>
 
-Suppose we have purchase transaction records like so collected over a time period.
+Suppose we have purchase transaction records collected over a time period.
 For this example, the records are stored in transactions.csv (in real-world usage, the records might be streamed).
 
 |DateTime|CustomerId|ProductId|Quantity|TotalPrice|
@@ -42,7 +42,8 @@ We will first define Quantum's DDL stored in a file 'myagg.yml' to process our d
          path: transactions.csv
       data_type: transaction
       dimensions:
-         - ProductId      time:
+         - ProductId
+      time:
          - year
          - month
          - day
