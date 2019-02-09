@@ -8,12 +8,12 @@ The tools we use today to slice, dice and aggregate time-series data are mainly 
 desired results especially when querying very large data sets.
 
 Quantum was created to address the problems above. It leverages data-streaming and in-memory caching to produce aggregated time-series data that can
-be queried in O(1) time complexity. Quantum consists of a multi-dimensional aggregation engine and a simple query language called QQL. 
+be queried in O(1) time complexity. Quantum consists of a multi-dimensional aggregation engine and a query language called QL. 
 
-<h3>Example</h3>
+<h3>Simple Example</h3>
 
 Suppose we have purchase transaction records like so collected over a time period.
-For this example, the records are stored in transactions.csv (in real-world usage, the data would be continuously streamed).
+For this example, the records are stored in transactions.csv (in real-world usage, the records might be streamed).
 
 |DateTime|CustomerId|ProductId|Quantity|TotalPrice|
 |------- |----------|---------|--------|----------|
@@ -34,19 +34,15 @@ We would like to ask questions such as:
 1. How much dollar volume did product, P1 produce in the last n months, n days, n hours, n minutes?
 2. What was the total quantity purchased for product, P1 on 2018-04-11 bewteen 21:00 and 23:00?
 
-We will first define Quantum's DDL to process our data set as shown below:
+We will first define Quantum's DDL stored in a file 'myagg.yml' to process our data set as shown below:
 ```
    myagg:
       data_source:
          type: csv
          path: transactions.csv
-      redis:
-         host: localhost
-         port: 6379
       data_type: transaction
       dimensions:
-         - ProductId
-      time:
+         - ProductId      time:
          - year
          - month
          - day
@@ -58,5 +54,22 @@ We will first define Quantum's DDL to process our data set as shown below:
       datetime_field_name: DateTime
       datetime_field_format: YYYY-mm-dd HH:MM:SS
 ```
+
+Explanation of the fields:
+
+    data_source - specifies where the data records will come from. In the example, it's a csv file called 'transactions.csv'. Other data source types
+that Quantum supports are AWS SQS, Kinesis, Kafka and RabbitMQ.
+    data_type - the type of our record and we've called it, 'transaction'.
+    dimensions - the dimensions in our record that we want to aggregate, in this case ProductId
+    time - the time dimensions which we want to aggregate (Quantum supports year, month, week, day, day_of_week, hour, min, sec)
+    measures - the numeric columns which we want to aggregate over (Quantum supports sum and average)
+    datetime_field_name - the name of the date/time field in the data set
+    datetime_field_format - the format of the date/time field
+
+We then run quantum like so:
+
+    quantum myagg.yml
+
+
 
 
