@@ -58,7 +58,7 @@ We will first define Quantum's DDL stored in a file 'myagg.yml' to process our d
 
 Explanation of the fields:
 
-* data_source - specifies where the data records will come from. In the example, it's a csv file called 'transactions.csv'. Quantum supports other sources such as AWS SQS, Kinesis, Kafka, RabbitMQ
+* **data_source** - specifies where the data records will come from. In the example, it's a csv file called 'transactions.csv'. Quantum supports other sources such as AWS SQS, Kinesis, Kafka, RabbitMQ
 * data_type - the type of our record and we've called it, 'transaction'.
 * dimensions - the non-time dimensions in our record that we want to aggregate, in this case ProductId
 * time - the time dimensions which we want to aggregate (Quantum supports year, month, week, day, day_of_week, hour, min, sec)
@@ -91,9 +91,11 @@ QL: get ProductId=P1;y=2018;m=4;d=12
         }
     }
 ]
+```
 
-How did sales for P1 do in April 12, 2018 and its preceding 3 days?
+*How did sales for P1 do in April 12, 2018 and its preceding 3 days?*
 
+```
 QL: get ProductId=P1;y=2018;m=4;d=12; 3-
 [
     {
@@ -117,9 +119,11 @@ QL: get ProductId=P1;y=2018;m=4;d=12; 3-
         }
     }
 ]
+```
 
-How did sales for P2 do in April 12, 2018 and its preceding and succeeding 3 days?
+*How did sales for P2 do in April 12, 2018 and its preceding and succeeding 3 days?*
 
+```
 QL: get ProductId=P2;y=2018;m=4;d=12; 3-+
 [
     {
