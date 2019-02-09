@@ -3,7 +3,7 @@
 
 <h2>An Engine For Fast Time Series Data Aggregation</h2>
 
-All analytics, whether looking back in time or attempting to predict the future, requires the ability to observe trends in data collected over time.
+Data analytics, whether looking back in time or attempting to predict the future, requires the ability to observe trends in data collected over time.
 The tools we use to slice, dice and aggregate time-series data are mainly SQL-based and are too cumbersome to craft or too slow to return the
 desired results especially when querying very large data sets.
 
@@ -13,7 +13,7 @@ be queried in O(1) time complexity. Quantum consists of a multi-dimensional aggr
 <h3>Simple Example</h3>
 
 Suppose we have purchase transaction records collected over a time period.
-For this example, the records are stored in transactions.csv (in real-world usage, the records might be streamed).
+For this example, the records are stored in transactions.csv (in real-world usage, the records would be streamed).
 
 |DateTime|CustomerId|ProductId|Quantity|TotalPrice|
 |------- |----------|---------|--------|----------|
@@ -31,7 +31,7 @@ For this example, the records are stored in transactions.csv (in real-world usag
 |2018-04-14 05:33:23|C7|P2|6|14.00|
 |2018-04-15 07:25:55|C1|P2|8|13.00|
 
-We would like to ask questions such as:
+Quantum allows you to ask questions like:
 
 * How much dollar volume did product, P1 produce in the last n months, n days, n hours, n minutes?
 * What was the total quantity purchased for product, P1 on 2018-04-11 bewteen 21:00 and 23:00?
@@ -77,7 +77,7 @@ Aggregated data is now available in Quantum's cache. We can now query it. Start 
     ql myagg.yml
 
 You may type in your query after the QL: prompt on the command line.  
-For example, to ask the question, *How did sales for product P1 do on April 12, 2018?*, you would type the QL statement:
+For example, to ask the question, *How did sales for product P1 do on April 12, 2018?*, QL statement is:
 
     get ProductId=P1;y=2018;m=4;d=12;
 
@@ -134,7 +134,7 @@ The above QL would return the following:
 ```
 
 You can also search forwards from a reference point in time. 
-*How did sales for P2 do in April 12, 2018 and its succeeding 5 days?* The QL would be:
+*How did sales for P2 do in April 12, 2018 and its succeeding 5 days?* The QL is:
 
     get ProductId=P2;y=2018;m=4;d=12; 3+
 
