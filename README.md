@@ -8,7 +8,7 @@ The tools we use to slice, dice and aggregate time-series data are mainly SQL-ba
 desired results especially when querying very large data sets.
 
 Quantum was created to address the problems above. It leverages data-streaming and Redis Cache to produce aggregated time-series data that can
-be queried in O(1) time complexity. Quantum consists of an aggregation engine and a query language called **QL**. 
+be queried in O(1) time complexity. Quantum consists of an aggregation engine and a query language simply called **Q**. 
 
 <h3>Simple Example</h3>
 
@@ -73,16 +73,16 @@ We then run quantum like so:
 
     quantum myagg.yml
 
-Aggregated data is now available in Quantum's cache. We can now query it. Start QL to query our data like so:
+Aggregated data is now available in Quantum's cache. We can now query it. Start Q to query our data like so:
 
-    ql myagg.yml
+    q myagg.yml
 
-You may type in your query after the QL: prompt on the command line.  
-For example, to ask the question, *How did sales for product P1 do on April 12, 2018?*, QL statement is:
+You may type in your query after the Q: prompt on the command line.  
+For example, to ask the question, *How did sales for product P1 do on April 12, 2018?*, Q statement is:
 
     get ProductId=P1;y=2018;m=4;d=12;
 
-QL query commands start with the keyword **get** followed by one or more key/value pairs (separated by semicolon).
+Q commands start with the keyword **get** followed by one or more key/value pairs (separated by semicolon).
 The above would return the following data:
 
 ```
@@ -102,13 +102,13 @@ The above would return the following data:
 Note that the returned data is a key/value pair. The structure of the key reflects the corresponding dimensions defined in the DDL, mygg.yml
 The value contains the count, and sum and average values for the measures defined in myagg.yml, namely Quantity and TotalPrice.
 
-QL also supports searching for data backwards/forwards from a reference point in time. For example,
-*How did sales for P1 do in April 12, 2018 and its preceding 3 days?*. The QL statement is:
+Q also supports searching for data backwards/forwards from a reference point in time. For example,
+*How did sales for P1 do in April 12, 2018 and its preceding 3 days?*. The Q statement is:
 
     get ProductId=P1;y=2018;m=4;d=12; 3-
 
-Note that we simply add '3-' to the end of the get statement. QL deduces from the query that '3-' means to look back 3 days.
-The above QL would return the following:
+Note that we simply add '3-' to the end of the get statement. Q deduces from the query that '3-' means to look back 3 days.
+The above Q statement would return the following:
 ```
 [
     {
@@ -135,7 +135,7 @@ The above QL would return the following:
 ```
 
 You can also search forwards from a reference point in time. 
-*How did sales for P2 do in April 12, 2018 and its succeeding 5 days?* The QL is:
+*How did sales for P2 do in April 12, 2018 and its succeeding 5 days?* The Q statement is:
 
     get ProductId=P2;y=2018;m=4;d=12; 3+
 

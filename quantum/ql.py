@@ -5,7 +5,7 @@ from quantum.quantum_engine import QuantumEngine
 
 class QL(Cmd):
 
-    prompt = 'QL: '
+    prompt = 'Q: '
 
     def __init__(self, config_file_path):
         super().__init__()
