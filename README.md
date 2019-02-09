@@ -76,9 +76,8 @@ Aggregated data is now available in Quantum's cache. We can now query it. Start 
 
 Example queries:
 
-```
 *How did sales for P1 do on April 12, 2018?*
-
+```
 QL: get ProductId=P1;y=2018;m=4;d=12
 [
     {
