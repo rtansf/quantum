@@ -57,13 +57,13 @@ We will first define Quantum's DDL stored in a file 'myagg.yml' to process our d
 
 Explanation of the fields:
 
-    data_source - specifies where the data records will come from. In the example, it's a csv file called 'transactions.csv'. 
-    data_type - the type of our record and we've called it, 'transaction'.
-    dimensions - the dimensions in our record that we want to aggregate, in this case ProductId
-    time - the time dimensions which we want to aggregate (Quantum supports year, month, week, day, day_of_week, hour, min, sec)
-    measures - the numeric columns which we want to aggregate over (Quantum supports sum and average)
-    datetime_field_name - the name of the date/time field in the data set
-    datetime_field_format - the format of the date/time field
+* data_source - specifies where the data records will come from. In the example, it's a csv file called 'transactions.csv'. 
+* data_type - the type of our record and we've called it, 'transaction'.
+* dimensions - the dimensions in our record that we want to aggregate, in this case ProductId
+* time - the time dimensions which we want to aggregate (Quantum supports year, month, week, day, day_of_week, hour, min, sec)
+* measures - the numeric columns which we want to aggregate over (Quantum supports sum and average)
+* datetime_field_name - the name of the date/time field in the data set
+* datetime_field_format - the format of the date/time field
 
 We then run quantum like so:
 
