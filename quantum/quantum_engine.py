@@ -21,8 +21,12 @@ class QuantumEngine():
 
         for aggname in self.config:
             cfg = self.config[aggname]
-            redis_cfg = cfg['redis']
-            redis_host = redis_cfg['host']
+            if 'redis' in cfg:
+                redis_cfg = cfg['redis']
+                redis_host = redis_cfg['host']
+            else:
+                redis_cfg = {}
+                redis_host = 'localhost'
             redis_port =  6379
             if 'port' in redis_cfg:
                 redis_port = redis_cfg['port']

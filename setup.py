@@ -23,6 +23,7 @@ setup(name='quantum',
         required
       ],
       entry_points = {
-        'console_scripts': ['ql=quantum.main_ql:run_ql']
+        'console_scripts': ['ql=quantum.main_ql:run_ql',
+                            'quantum=quantum.main_quantum:run_quantum']
       }
 )

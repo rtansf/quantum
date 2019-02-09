@@ -74,15 +74,15 @@ We then start QL to query our data like so:
 
     ql myagg.yml
 
-How did sales for P1 do on April 12 of 2018?
+How did sales for P1 do on April 12, 2018?
 
     get ProductId=P1;y=2018;m=4;d=12
 
-How did sales for P1  do in April 12 of 2018 and its preceding 3 days?
+How did sales for P1  do in April 12, 2018 and its preceding 3 days?
 
     get ProductId=P1;y=2018;m=4;d=12 3-
 
-How did sales for P2 do in April of 2018 and its preceding and succeeding 3 days?
+How did sales for P2 do in April 12, 2018 and its preceding and succeeding 3 days?
 
     get ProductId=P1,year=2018,month=4;d=12 3-+ 
 
