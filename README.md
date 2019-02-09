@@ -7,8 +7,8 @@ Data analytics, whether looking back in time or attempting to predict the future
 The tools we use to slice, dice and aggregate time-series data are mainly SQL-based and are too cumbersome to craft or too slow to return the
 desired results especially when querying very large data sets.
 
-Quantum was created to address the problems above. It leverages data-streaming and in-memory caching to produce aggregated time-series data that can
-be queried in O(1) time complexity. Quantum consists of a multi-dimensional aggregation engine and a query language called QL. 
+Quantum was created to address the problems above. It leverages data-streaming and Redis Cache to produce aggregated time-series data that can
+be queried in O(1) time complexity. Quantum consists of an aggregation engine and a query language called **QL**. 
 
 <h3>Simple Example</h3>
 
@@ -35,6 +35,7 @@ Quantum allows you to ask questions like:
 
 * How much dollar volume did product, P1 produce in the last n months, n days, n hours, n minutes?
 * What was the total quantity purchased for product, P1 on 2018-04-11 bewteen 21:00 and 23:00?
+* How was sales of product P2 on 2018-04-12 and 3 days preceding and succeeding that?
 
 We will first define Quantum's DDL stored in a file 'myagg.yml' to process our data set as shown below:
 ```
