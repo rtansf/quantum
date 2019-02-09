@@ -57,8 +57,7 @@ We will first define Quantum's DDL stored in a file 'myagg.yml' to process our d
 
 Explanation of the fields:
 
-    data_source - specifies where the data records will come from. In the example, it's a csv file called 'transactions.csv'. Other data source types
-that Quantum supports are AWS SQS, Kinesis, Kafka and RabbitMQ.
+    data_source - specifies where the data records will come from. In the example, it's a csv file called 'transactions.csv'. 
     data_type - the type of our record and we've called it, 'transaction'.
     dimensions - the dimensions in our record that we want to aggregate, in this case ProductId
     time - the time dimensions which we want to aggregate (Quantum supports year, month, week, day, day_of_week, hour, min, sec)
