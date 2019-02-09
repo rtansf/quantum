@@ -4,7 +4,7 @@
 <h2>An Engine For Fast Time Series Data Aggregation</h2>
 
 All analytics, whether looking back in time or attempting to predict the future, requires the ability to observe trends in data collected over time.
-The tools we use today to slice, dice and aggregate time-series data are mainly SQL-based and are too cumbersome to craft or too slow to return the
+The tools we use to slice, dice and aggregate time-series data are mainly SQL-based and are too cumbersome to craft or too slow to return the
 desired results especially when querying very large data sets.
 
 Quantum was created to address the problems above. It leverages data-streaming and in-memory caching to produce aggregated time-series data that can
@@ -27,7 +27,9 @@ For this example, the records are stored in transactions.csv (in real-world usag
 |2018-04-12 05:06:09|C7|P1|3|88.00|
 |2018-04-12 11:02:14|C5|P6|3|19.00|
 |2018-04-12 14:07:16|C5|P5|3|11.00|
-|2018-04-13 04:03:12|C4|P2|3|10.00|
+|2018-04-13 02:03:02|C4|P2|3|12.00|
+|2018-04-14 05:33:23|C7|P2|6|14.00|
+|2018-04-15 07:25:55|C1|P2|8|13.00|
 
 We would like to ask questions such as:
 
@@ -58,13 +60,13 @@ We will first define Quantum's DDL stored in a file 'myagg.yml' to process our d
 
 Explanation of the fields:
 
-* **data_source** - specifies where the data records will come from. In the example, it's a csv file called 'transactions.csv'. Quantum supports other sources such as AWS SQS, Kinesis, Kafka, RabbitMQ
-* data_type - the type of our record and we've called it, 'transaction'.
-* dimensions - the non-time dimensions in our record that we want to aggregate, in this case ProductId
-* time - the time dimensions which we want to aggregate (Quantum supports year, month, week, day, day_of_week, hour, min, sec)
-* measures - the numeric columns which we want to aggregate over (Quantum supports sum and average)
-* datetime_field_name - the name of the date/time field in the data set
-* datetime_field_format - the format of the date/time field
+* **data_source** - specifies where the data records will come from. In the example, it's a csv file called 'transactions.csv'. Quantum supports other sources such as AWS SQS (Kinesis, Kafka, RabbitMQ to come soon)
+* **data_type** - the type of our record and we've called it, 'transaction'.
+* **dimensions** - the non-time dimensions in our record that we want to aggregate, in this case ProductId
+* **time** - the time dimensions which we want to aggregate (Quantum supports year, month, week, day, day_of_week, hour, min, sec)
+* **measures** - the numeric columns which we want to aggregate over (Quantum supports sum and average)
+* **datetime_field_name** - the name of the date/time field in the data set
+* **datetime_field_format** - the format of the date/time field
 
 We then run quantum like so:
 
@@ -74,11 +76,15 @@ Aggregated data is now available in Quantum's cache. We can now query it. Start 
 
     ql myagg.yml
 
-Example queries:
+You may type in your query after the QL: prompt on the command line.  
+For example, to ask the question, *How did sales for product P1 do on April 12, 2018?*, you would type the QL statement:
 
-*How did sales for P1 do on April 12, 2018?*
+    get ProductId=P1;y=2018;m=4;d=12;
+
+QL query commands start with the keyword **get** followed by one or more key/value pairs (separated by semicolon).
+The above would return the following data:
+
 ```
-QL: get ProductId=P1;y=2018;m=4;d=12
 [
     {
         "key": "/qtname:myagg/dt:transaction/ProductId:P1/y:2018/m:04/d:12",
@@ -92,11 +98,17 @@ QL: get ProductId=P1;y=2018;m=4;d=12
     }
 ]
 ```
+Note that the returned data is a key/value pair. The structure of the key reflects the corresponding dimensions defined in the DDL, mygg.yml
+The value contains the count, and sum and average values for the measures defined in myagg.yml, namely Quantity and TotalPrice.
 
-*How did sales for P1 do in April 12, 2018 and its preceding 3 days?*
+QL also supports searching for data backwards/forwards from a reference point in time. For example,
+*How did sales for P1 do in April 12, 2018 and its preceding 3 days?*. The QL statement is:
 
+    get ProductId=P1;y=2018;m=4;d=12; 3-
+
+Note that we simply add '3-' to the end of the get statement. QL deduces from the query that '3-' means to look back 3 days.
+The above QL would return the following:
 ```
-QL: get ProductId=P1;y=2018;m=4;d=12; 3-
 [
     {
         "key": "/qtname:myagg/dt:transaction/ProductId:P1/y:2018/m:04/d:11",
@@ -121,10 +133,13 @@ QL: get ProductId=P1;y=2018;m=4;d=12; 3-
 ]
 ```
 
-*How did sales for P2 do in April 12, 2018 and its preceding and succeeding 3 days?*
+You can also search forwards from a reference point in time. 
+*How did sales for P2 do in April 12, 2018 and its succeeding 5 days?* The QL would be:
 
+    get ProductId=P2;y=2018;m=4;d=12; 3+
+
+The result would be:
 ```
-QL: get ProductId=P2;y=2018;m=4;d=12; 3-+
 [
     {
         "key": "/qtname:myagg/dt:transaction/ProductId:P2/y:2018/m:04/d:12",
@@ -139,20 +154,37 @@ QL: get ProductId=P2;y=2018;m=4;d=12; 3-+
     {
         "key": "/qtname:myagg/dt:transaction/ProductId:P2/y:2018/m:04/d:13",
         "value": {
-            "sum_Quantity": 3.0,
+            "sum_Quantity": 6.0,
             "avg_Quantity": 3.0,
-            "sum_TotalPrice": 10.0,
-            "avg_TotalPrice": 10.0,
+            "sum_TotalPrice": 22.0,
+            "avg_TotalPrice": 11.0,
+            "count": 2
+        }
+    },
+    {
+        "key": "/qtname:myagg/dt:transaction/ProductId:P2/y:2018/m:04/d:14",
+        "value": {
+            "sum_Quantity": 6.0,
+            "avg_Quantity": 6.0,
+            "sum_TotalPrice": 14.0,
+            "avg_TotalPrice": 14.0,
+            "count": 1
+        }
+    },
+    {
+        "key": "/qtname:myagg/dt:transaction/ProductId:P2/y:2018/m:04/d:15",
+        "value": {
+            "sum_Quantity": 8.0,
+            "avg_Quantity": 8.0,
+            "sum_TotalPrice": 13.0,
+            "avg_TotalPrice": 13.0,
             "count": 1
         }
     }
 ]
 ```
 
+You can combine searching backwards and forwards from a single reference point in time like so:
 
-
-
-
-
-
+    get ProductId=P2;y=2018;m=4;d=12; 3-+
 
