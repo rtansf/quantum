@@ -189,3 +189,13 @@ You can combine searching backwards and forwards from a single reference point i
 
     get ProductId=P2;y=2018;m=4;d=12; 3-+
 
+You can retrieve records at different levels of of time granularity. For example:
+
+    get ProductId=P2;y=2018;m=4;d=12;h=1
+    get ProductId=P2;y=2018;m=4;d=12;h=1;mn=8
+    get ProductId=P2;y=2018;m=4;d=12;h=1 4+-
+
+    
+    
+   
+
