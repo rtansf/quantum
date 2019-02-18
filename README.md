@@ -194,8 +194,13 @@ You can retrieve records at different levels of of time granularity. For example
     get ProductId=P2;y=2018;m=4;d=12;h=1
     get ProductId=P2;y=2018;m=4;d=12;h=1;mn=8
     get ProductId=P2;y=2018;m=4;d=12;h=1 4+-
+    
+<h3>System Architecture</h3>
 
+The following diagram shows the architecture of Quantum. 
     
-    
+![ScreenShot](images/quantum-arch.png)
+
+
    
 
