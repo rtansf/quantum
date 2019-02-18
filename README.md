@@ -135,7 +135,7 @@ The above Q statement would return the following:
 ```
 
 You can also search forwards from a reference point in time. 
-*How did sales for P2 do in April 12, 2018 and its succeeding 5 days?* The Q statement is:
+*How did sales for P2 do in April 12, 2018 and its succeeding 3 days?* The Q statement is:
 
     get ProductId=P2;y=2018;m=4;d=12; 3+
 
