@@ -201,6 +201,17 @@ The following diagram shows the architecture of Quantum.
     
 ![ScreenShot](images/quantum-arch.png)
 
+At the heart of Quantum is its Aggregation Engine. Data is ingested by the engine from a CSV file or read from a data stream. Data aggregation is performed according to the configuration defined in a Quantum DDL file. All aggregated data is stored in Redis and data integrity is ensured by performing all reads and writes atomically. For faster throughput, the data sources can be sharded and multiple aggregation engines run, with each engine processing an independent shard.
+
+The Query Engine translates Q syntax to aggregation keys which are then used to look up values from Redis. Other systems such as Report Generators, Data Visualizers and Alerting systems can be built using the Query Engine API. Users can also query the data using the Q command line interface from a terminal console.
+
+
+
+
+
+
+
+
 
    
 
